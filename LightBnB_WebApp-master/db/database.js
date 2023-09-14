@@ -115,33 +115,47 @@ const getAllProperties = (options, limit = 10) => {
   
   if (options.city) {
     queryParams.push(`%${options.city}%`);
-    queryString += `WHERE properties.city LIKE $${queryParams.length} `;
+    queryString += `
+    WHERE properties.city LIKE $${queryParams.length} 
+    `;
   }
 
   if (options.owner_id) {
     queryParams.push(Number(options.owner_id));
     if (queryString.includes('WHERE')) {
-      queryString += `AND owner_id = $${queryParams.length} `;
+      queryString += `
+      AND owner_id = $${queryParams.length} 
+      `;
     } else {
-      queryString += `WHERE owner_id = $${queryParams.length} `;
+      queryString += `
+      WHERE owner_id = $${queryParams.length} 
+      `;
     }
   }
 
   if (options.minimum_price_per_night) {
     queryParams.push(Number(options.minimum_price_per_night) * 100);
     if (queryString.includes('WHERE')) {
-      queryString += `AND cost_per_night >= $${queryParams.length} `;
+      queryString += `
+      AND cost_per_night >= $${queryParams.length} 
+      `;
     } else {
-      queryString += `WHERE cost_per_night >= $${queryParams.length} `;
+      queryString += `
+      WHERE cost_per_night >= $${queryParams.length} 
+      `;
     }
   }
 
   if (options.maximum_price_per_night) {
     queryParams.push(Number(options.maximum_price_per_night * 100));
     if (queryString.includes('WHERE')) {
-      queryString += `AND cost_per_night <= $${queryParams.length} `;
+      queryString += `
+      AND cost_per_night <= $${queryParams.length} 
+      `;
     } else {
-      queryString += `WHERE cost_per_night <= $${queryParams.length} `;
+      queryString += `
+      WHERE cost_per_night <= $${queryParams.length} 
+      `;
     }
   }
 
@@ -151,7 +165,9 @@ const getAllProperties = (options, limit = 10) => {
 
   if (options.minimum_rating) {
     queryParams.push(Number(options.minimum_rating));
-    queryString += `HAVING avg(property_reviews.rating) >= $${queryParams.length}`;
+    queryString += `
+    HAVING avg(property_reviews.rating) >= $${queryParams.length}
+    `;
   }
 
   queryParams.push(limit);
