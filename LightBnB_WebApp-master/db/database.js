@@ -17,9 +17,9 @@ const pool = new Pool({
  * @return {Promise<{}>} A promise to the user.
  */
 const getUserWithEmail = function (email) {
-  pool.query('SELECT * FROM users WHERE email = $1', [email])
+  return pool.query('SELECT * FROM users WHERE email = $1', [email])
     .then((result) => {
-      console.log(result.rows);
+      return result.rows;
     })
     .catch((err) => {
       console.log(err);
