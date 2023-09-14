@@ -17,14 +17,13 @@ const pool = new Pool({
  * @return {Promise<{}>} A promise to the user.
  */
 const getUserWithEmail = function (email) {
-  let resolvedUser = null;
-  for (const userId in users) {
-    const user = users[userId];
-    if (user && user.email.toLowerCase() === email.toLowerCase()) {
-      resolvedUser = user;
-    }
-  }
-  return Promise.resolve(resolvedUser);
+  pool.query('SELECT * FROM users WHERE email = $1', [email])
+    .then((result) => {
+      console.log(result.rows);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 };
 
 /**
@@ -77,14 +76,6 @@ const getAllProperties = (options, limit = 10) => {
       console.log(err.message);
     });
 };
-// const getAllProperties = function (options, limit = 10) {
-//   const limitedProperties = {};
-//   for (let i = 1; i <= limit; i++) {
-//     // pool.query('SELECT * FROM ')
-//     limitedProperties[i] = properties[i];
-//   }
-//   return Promise.resolve(limitedProperties);
-// };
 
 /**
  * Add a property to the database
